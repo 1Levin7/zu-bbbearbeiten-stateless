@@ -4,14 +4,15 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    items = helper.get_all()
-    return render_template('index.html', items=items)
+    todos = helper.todos
+    return render_template('index.html', todos=todos)
 
 
-@app.route('/add', methods=["POST"])
+@app.route('/create/')
 def add():
-    text = request.form.get("text")
-    helper.add(text)
+    title = request.args.get("title")
+    print(title)
+    helper.add(title)
     return redirect(url_for("index"))
 
 
@@ -19,3 +20,7 @@ def add():
 def update(index):
     helper.update(index)
     return redirect(url_for("index"))
+
+@app.route('/secret')
+def secret():
+    return 42
