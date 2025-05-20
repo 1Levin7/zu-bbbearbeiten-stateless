@@ -1,26 +1,27 @@
 from dataclasses import dataclass
 
-items = []
+todos = []
 
 
 @dataclass
-class Item:
-    text: str
+class Todo:
+    titel: str
     isCompleted: bool = False
 
 
-def add(text):
-    text = text.replace('b', 'bbb').replace('B', 'Bbb')
-    items.append(Item(text))
+def add(title):
+    # Exercise 1602: This is where the bbb-isation happens
+    title = title.replace('b', 'bbb').replace('B', 'Bbb')
+    todos.append(Todo(title))
 
 
 def get_all():
-    return items
+    return todos
 
 
 def get(index):
-    return items[index]
+    return todos[index]
 
 
 def update(index):
-    items[index].isCompleted = not items[index].isCompleted
+    todos[index].isCompleted = not todos[index].isCompleted
