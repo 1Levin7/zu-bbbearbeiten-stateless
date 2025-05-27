@@ -1,26 +1,24 @@
+from flask import Flask, request, redirect, url_for, render_template
 import helper
-from flask import Flask, request, Response, render_template, redirect, url_for
+
 app = Flask(__name__)
 
 @app.route("/")
 def index():
-    todos = helper.todos
-    return render_template('index.html', todos=todos)
+    todos = helper.get_all()
+    return render_template("index.html", todos=todos)
 
-
-@app.route('/create/')
+@app.route("/add", methods=["POST"])
 def add():
-    title = request.args.get("title")
-    print(title)
+    title = request.form.get("title")
     helper.add(title)
     return redirect(url_for("index"))
 
-
-@app.route('/update/<int:index>')
+@app.route("/update/<int:index>")
 def update(index):
     helper.update(index)
     return redirect(url_for("index"))
 
-@app.route('/secret')
+@app.route("/secret")
 def secret():
-    return 42
+    return "42"

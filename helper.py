@@ -1,27 +1,34 @@
+import datetime
+import operator
 from dataclasses import dataclass
 
-todos = []
-
+items = []
 
 @dataclass
-class Todo:
-    titel: str
+class Item:
+    text: str
+    date: datetime.datetime
     isCompleted: bool = False
 
+def oneWeekFromToday():
+    today = datetime.datetime.now()
+    oneWeek = datetime.timedelta(weeks=1)
+    return today + oneWeek
 
-def add(title):
-    # Exercise 1602: This is where the bbb-isation happens
-    title = title.replace('b', 'bbb').replace('B', 'Bbb')
-    todos.append(Todo(title))
-
+def add(text, date=None):
+    text = text.replace('b', 'bbb').replace('B', 'Bbb')
+    if date is None:
+        date = oneWeekFromToday()
+    else:
+        date = datetime.datetime.strptime(date, '%Y-%m-%d')
+    items.append(Item(text, date))
+    items.sort(key=operator.attrgetter("date"))
 
 def get_all():
-    return todos
-
+    return items
 
 def get(index):
-    return todos[index]
-
+    return items[index]
 
 def update(index):
-    todos[index].isCompleted = not todos[index].isCompleted
+    items[index].isCompleted = not items[index].isCompleted
