@@ -29,3 +29,14 @@ def test_add():
 
     item = helper.items[-1]
     assert isinstance(item.date, datetime.date)
+
+def test_get_csv():
+    helper.items.clear()
+    helper.add("Essen einkaufen", "2023-09-01")
+    helper.add("Lernen, Lernen, Lernen", "2023-09-02")
+
+    csv = helper.get_csv()
+
+    assert csv.startswith("text,date,isCompleted")
+    assert "Essen einkaufen" in csv
+    assert "2023-09-01" in csv
