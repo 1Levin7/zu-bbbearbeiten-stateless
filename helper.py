@@ -1,6 +1,8 @@
 import datetime
 import operator
 from dataclasses import dataclass
+import csv
+import io
 
 items = []
 
@@ -32,3 +34,15 @@ def get(index):
 
 def update(index):
     items[index].isCompleted = not items[index].isCompleted
+
+import csv
+import io
+
+def get_csv():
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(["text", "date", "isCompleted"])
+    for item in items:
+        writer.writerow([item.text, item.date.strftime("%Y-%m-%d"), item.isCompleted])
+    return output.getvalue()
+

@@ -1,5 +1,6 @@
 from flask import Flask, request, redirect, url_for, render_template
 import helper
+from flask import Response 
 
 app = Flask(__name__)
 
@@ -22,3 +23,12 @@ def update(index):
 @app.route("/secret")
 def secret():
     return "42"
+
+
+@app.route("/download")
+def get_csv():
+    return Response(
+        helper.get_csv(),
+        mimetype="text/csv",
+        headers={"Content-disposition": "attachment; filename=zu-bbbearbeiten.csv"},
+    )

@@ -14,6 +14,7 @@
     <div style="margin-top: 50px;" class="ui container">
         <h1 class="ui center aligned header">👏👏👏 Zu Bbbearbeiten</h1>
         <div class="ui divider"></div>
+
         <form name="item" class="ui form" action="/create">
             <div class="field" style="margin-top: 10px;">
                 <div for="title" class="ui pointing below label">Was gibbbt es zu tun?</div>
@@ -22,32 +23,32 @@
                     <button class="ui blue button" type="submit">Hinzufügen</button>
                 </div>
             </div>
-
         </form>
+
+    
+        <a class="ui green button" href="/download" style="margin-top: 15px;"> </a>
 
         {% for todo in todos %}
         <div class="ui segment" style="overflow:hidden; position: relative">
             <span class="ui header" style="margin-left: 0.5em;">{{todo.title}}</span>
             {% if todo.isCompleted %}
-            <a class="ui green left corner label" href="/update/{{loop.index0}}"><i
-                    class="check square outline icon"></i></a>
+            <a class="ui green left corner label" href="/update/{{loop.index0}}">
+                <i class="check square outline icon"></i>
+            </a>
             {% else %}
-            <a class="ui red left corner label" href="/update/{{loop.index0}}"><i
-                    class="square outline icon icon"></i></a>
+            <a class="ui red left corner label" href="/update/{{loop.index0}}">
+                <i class="square outline icon icon"></i>
+            </a>
             {% endif %}
         </div>
         {% endfor %}
     </div>
 
     <script type="text/javascript">
-
         $(document).ready(function () {
-
             document.item.text.focus();
-
         });
-
     </script>
-
+</body>
 
 </html>
