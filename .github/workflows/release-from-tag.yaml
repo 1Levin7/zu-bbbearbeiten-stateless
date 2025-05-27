@@ -1,0 +1,50 @@
+name: Release from tag
+
+on:
+  push:
+    tags:
+      - "*"  # Auslösen bei jedem neuen Tag, z. B. v1.0.0
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Publish release
+        id: publish-release
+        uses: ghalactic/github-release-from-tag@v5
+        with:
+          prerelease: "false"
+          reactions: heart,rocket,eyes
+
+  build-and-upload-exe:
+    runs-on: windows-latest
+    needs: publish  # Erst wenn das Release erfolgreich erstellt wurde
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pyinstaller
+
+      - name: Build executable with PyInstaller
+        run: pyinstaller -F --add-data="templates;templates" --add-data="helper.py;." main.py
+
+      - name: Upload executable to release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload ${{ github.ref_name }} dist/main.exe
